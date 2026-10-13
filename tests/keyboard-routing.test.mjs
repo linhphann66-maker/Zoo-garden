@@ -27,7 +27,7 @@ function fixture(layout='classic'){
     $:()=>({querySelectorAll:()=>[]}),uiBlocked:()=>!!ctx.modal||ctx.nativeDialog,
     tryLanding:()=>calls.push(['land']),cancelPlacement:()=>{calls.push(['cancelPlacement']);ctx.placement=null;},confirmPlacement:()=>calls.push(['place']),rotatePlacement:()=>calls.push(['rotate']),
     closeDialog:()=>{calls.push(['close']);ctx.modal='';movement.clear();},start:()=>calls.push(['start']),inventory:()=>calls.push(['bag']),quests:()=>calls.push(['journal']),map:()=>calls.push(['map']),quickEat:()=>calls.push(['eat']),skill:index=>calls.push(['skill',index]),basicAttack:()=>calls.push(['attack']),
-    gestures:{clear:()=>calls.push(['gesturesClear'])},save:()=>calls.push(['save']),
+    gestures:{clear:()=>calls.push(['gesturesClear'])},save:()=>calls.push(['save']),attackPad:()=>calls.push(['attack']),
   });
   vm.runInContext(compiled,ctx);
   function fire(type,code,key=code.length===4&&code.startsWith('Key')?code[3].toLowerCase():code==='Space'?' ':code==='Semicolon'?';':code,extra={}){

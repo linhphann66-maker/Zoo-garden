@@ -46,7 +46,7 @@ test('on: N is the basic attack for the right hand, a key no layout uses, and H 
   // G (and H) are free in both layouts: not a skill, the journal, a WASD move, or one of the fixed keys of main.ts (F, I, M, R).
   for (const layout of ['classic', 'wasd']) { const b = keyboardBindings(layout), taken = [...b.skills, b.journal, 'w', 'a', 's', 'd', 'f', 'i', 'm', 'r'] as string[]; assert.ok(!taken.includes('n') && !taken.includes('h'), layout); }
   assert.deepEqual([...new Set([...main.matchAll(/key==='([a-z])'/g)].map(m => m[1]))].sort(), ['f', 'i', 'm', 'r'], 'the fixed letter keys of the key handler');
-  assert.match(main, /else if\(handKey\(key,airOn\(\)\)==='eat'\)void quickEat\(\);else if\(handKey\(key,airOn\(\)\)==='attack'\)basicAttack\(\);/);
+  assert.match(main, /else if\(handKey\(key,airOn\(\)\)==='eat'\)void quickEat\(\);else if\(handKey\(key,airOn\(\)\)==='attack'\)attackPad\(\);/);
   // The guide: on, H joins the basic attack and Eat shows G in both layouts and both Space choices; off, it is the old guide.
   const rows = (html: string) => Object.fromEntries([...html.matchAll(/<dt>(.*?)<\/dt><dd>(.*?)<\/dd>/g)].map(m => [m[1], m[2].replace(/<\/?kbd>/g, ' ').trim().replace(/\s+/g, ' ')]));
   for (const layout of ['classic', 'wasd']) {
@@ -60,7 +60,7 @@ test('on: N is the basic attack for the right hand, a key no layout uses, and H 
 test('off: the page markup is the one from before; the Jump toe and the combo chip are made only when the switch is on', () => {
   const hud = main.slice(main.indexOf('<div id="hud" hidden>'), main.indexOf('<div id="space-hud" hidden>'));
   assert.doesNotMatch(hud, /jump-pad|combo-chip|data-action="jump"/); assert.match(hud, /<kbd>Space<\/kbd> attack<\/div>/);
-  assert.match(hud, /<button class="attack-pad" data-action="attack" aria-label="Basic attack" title="Basic attack">\$\{hudIcon\('attack'\)\}<\/button><\/div><div id="keys-guide"/, 'the fight cluster ends with the pad');
+  assert.match(hud, /<button class="attack-pad" data-action="attack" aria-label="Tornado" title="Tornado">\$\{hudIcon\('gale'\)\}<b class="cooldown"><\/b><\/button><\/div><div id="keys-guide" class="keys-guide"/, 'the fight cluster ends with the pad');
   const sync = main.slice(main.indexOf('function syncAirCombat(){'), main.indexOf('function jumpBlock(){'));
   assert.match(sync, /if\(on&&!document\.querySelector\('#hud \.jump-pad'\)\)\{/); assert.match(sync, /document\.body\.classList\.toggle\('air-combat',on\)/); assert.match(sync, /world\.jumpRules=on/);
   assert.match(sync, /if\(!on\)\{world\.jump\.cancel\(\);[^}]*combat\.edge\.sure=false;combat\.edge\.bonus=1;combat\.edge\.launch=0;/, 'switching off clears every bonus');
